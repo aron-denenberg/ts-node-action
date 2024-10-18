@@ -36371,6 +36371,10 @@ async function runAI(field, summary, existingValue) {
 async function generateFieldFromAIAssistant(aiClient, aiAssistant, field, summary, currentValue) {
     const userMessages = [
         {
+            role: 'user',
+            content: 'You must format all of your responses exclusively in markdown. Always use markdown elements such as headers, code blocks, lists, and links when appropriate. Do not output anything in plain text that is not wrapped in a markdown element.'
+        },
+        {
             // Sometimes the parser includes extra fluff text in the response, so we need to filter it out
             role: 'user',
             content: `Translate the following text into markdown for the "${field}" field of the Change Summary document: "${summary}"`
@@ -36379,7 +36383,7 @@ async function generateFieldFromAIAssistant(aiClient, aiAssistant, field, summar
     if (currentValue) {
         userMessages.push({
             role: 'user',
-            content: `The current value of the "${field}" field is: "${currentValue}". Please add on to this value and make any updates as necessary for conciseness.`
+            content: `The current value of the "${field}" field is: "${currentValue}". Please add on to this value with the new information. This value itself should not be removed or modified.`
         });
     }
     let fieldInstruction;
@@ -36409,11 +36413,12 @@ async function generateFieldFromAIAssistant(aiClient, aiAssistant, field, summar
         .filter(message => message.run_id === run.id && message.role === 'assistant')
         .pop();
     const response = lastMessageForRun?.content.filter(val => val.type === 'text')[0].text?.value;
+    const markdown = /(```markdown\n.*\n```)/g.exec(response || '')?.[1];
     if (!response) {
         throw new Error(`Unexpected value returned by AI parser: ${lastMessageForRun?.content.filter(val => val.type === 'text')[0].text?.value}`);
     }
-    console.log(response);
-    return response;
+    console.log(markdown);
+    return markdown || '';
 }
 // async getModelMessageIdFromThread(thread: OpenAI.Beta.Threads.Thread): Promise<string | undefined> {
 //   const messages = await this.aiClient.beta.threads.messages.list(thread.id);
