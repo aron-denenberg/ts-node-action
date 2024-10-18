@@ -7,6 +7,9 @@ branding:
   icon: 'heart'
   color: 'red'
 
+env:
+  OPENAI_API_KEY: ${{ inputs.openai_api_key }}
+
 # Define your inputs here.
 inputs:
   openai_api_key:
