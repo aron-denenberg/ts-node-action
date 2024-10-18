@@ -60,13 +60,13 @@ jobs:
 
       - name: Print Environment Variables
         id: env
-        run: echo "OpenAI API Key exists? ${OPENAI_API_KEY}"
+        run: echo "OpenAI API Key exists? $OPENAI_API_KEY"
 
       - name: Test Local Action
         id: test-action
         uses: aron-denenberg/ts-node-action@v1
         with:
-          openai_api_key: "${OPENAI_API_KEY}"
+          openai_api_key: "$OPENAI_API_KEY"
 
       - name: Print Output
         if: ${{ steps.test-action.conclusion == 'success' }}
