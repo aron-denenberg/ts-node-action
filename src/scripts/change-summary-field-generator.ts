@@ -91,7 +91,7 @@ type AssetRow = {
 //   }
 
 export async function runAI(
-  field: 'Code Change Summary' | 'Code Changes',
+  field: string,
   summary: string,
   existingValue?: string
 ): Promise<string> {
@@ -312,47 +312,49 @@ async function generateFieldFromAIAssistant(
   summary: string,
   currentValue?: string
 ): Promise<string> {
-
   const userMessages = [
     {
       // Sometimes the parser includes extra fluff text in the response, so we need to filter it out
       role: 'user' as 'user',
       content: `Translate the following text into markdown for the "${field}" field of the Change Summary document: "${summary}"`
-   },
-  ];
+    }
+  ]
 
   if (currentValue) {
     userMessages.push({
       role: 'user' as 'user',
       content: `The current value of the "${field}" field is: "${currentValue}". Please add on to this value and make any updates as necessary for conciseness.`
-    });
+    })
   }
 
-  let fieldInstruction;
-  
-  if (field === 'Code Change Summary') fieldInstruction = `The "${field}" field is a more concise description of the changes meant for a QA person to easily understand and build test scenarios off of`;
-  if (field === 'Code Changes') fieldInstruction = `The "${field}" field is a more detailed description of the changes meant for a developer to understand the changes made to the specific services in the codebase`;
+  let fieldInstruction
+
+  if (field === 'Code Change Summary')
+    fieldInstruction = `The "${field}" field is a more concise description of the changes meant for a QA person to easily understand and build test scenarios off of`
+  if (field === 'Code Changes')
+    fieldInstruction = `The "${field}" field is a more detailed description of the changes meant for a developer to understand the changes made to the specific services in the codebase`
 
   if (fieldInstruction) {
     userMessages.push({
       role: 'user' as 'user',
-      content: fieldInstruction,
-  });
+      content: fieldInstruction
+    })
+  }
 
   const thread = await aiClient.beta.threads.create({
     messages: userMessages
-  });
+  })
 
   const run = await aiClient.beta.threads.runs.create(thread.id, {
     assistant_id: aiAssistant.id
-  });
+  })
 
   let runStatus = await aiClient.beta.threads.runs.retrieve(thread.id, run.id)
 
   while (runStatus.status !== 'completed') {
     await new Promise(resolve => setTimeout(resolve, 2000))
     runStatus = await aiClient.beta.threads.runs.retrieve(thread.id, run.id)
-  };
+  }
 
   const messages = await aiClient.beta.threads.messages.list(thread.id)
 
@@ -360,7 +362,7 @@ async function generateFieldFromAIAssistant(
     .filter(
       message => message.run_id === run.id && message.role === 'assistant'
     )
-    .pop();
+    .pop()
 
   const response = lastMessageForRun?.content.filter(
     val => val.type === 'text'

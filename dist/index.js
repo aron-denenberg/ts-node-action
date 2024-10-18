@@ -36369,22 +36369,32 @@ async function runAI(field, summary, existingValue) {
 //   return result.rows;
 // }
 async function generateFieldFromAIAssistant(aiClient, aiAssistant, field, summary, currentValue) {
+    const userMessages = [
+        {
+            // Sometimes the parser includes extra fluff text in the response, so we need to filter it out
+            role: 'user',
+            content: `Translate the following text into markdown for the "${field}" field of the Change Summary document: "${summary}"`
+        }
+    ];
+    if (currentValue) {
+        userMessages.push({
+            role: 'user',
+            content: `The current value of the "${field}" field is: "${currentValue}". Please add on to this value and make any updates as necessary for conciseness.`
+        });
+    }
+    let fieldInstruction;
+    if (field === 'Code Change Summary')
+        fieldInstruction = `The "${field}" field is a more concise description of the changes meant for a QA person to easily understand and build test scenarios off of`;
+    if (field === 'Code Changes')
+        fieldInstruction = `The "${field}" field is a more detailed description of the changes meant for a developer to understand the changes made to the specific services in the codebase`;
+    if (fieldInstruction) {
+        userMessages.push({
+            role: 'user',
+            content: fieldInstruction
+        });
+    }
     const thread = await aiClient.beta.threads.create({
-        messages: [
-            {
-                // Sometimes the parser includes extra fluff text in the response, so we need to filter it out
-                role: 'user',
-                content: `Translate the following text into markdown for the "${field}" field of the Change Summary document: "${summary}"`
-            },
-            ...(currentValue
-                ? [
-                    {
-                        role: 'user',
-                        content: `The current value of the "${field}" field is: "${currentValue}". Please add on to this value and make any updates as necessary for conciseness.`
-                    }
-                ]
-                : [])
-        ]
+        messages: userMessages
     });
     const run = await aiClient.beta.threads.runs.create(thread.id, {
         assistant_id: aiAssistant.id
