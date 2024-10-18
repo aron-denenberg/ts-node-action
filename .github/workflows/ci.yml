@@ -66,8 +66,8 @@ jobs:
           openai_api_key: ${{ secrets.OPENAI_API_KEY }}
 
       - name: Print Output
-        if: ${{ steps.test-action.conclusion == 'success' }}
         id: output
         run:
-          echo "${{ steps.test-action.conclusion }}  ${{
-          steps.test-action.outputs.result }}"
+          echo "${{ steps.test-action.inputs.openai_api_key }} ${{
+          steps.test-action.conclusion }}  ${{ steps.test-action.outputs.result
+          }}"

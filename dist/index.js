@@ -36133,7 +36133,8 @@ async function run() {
         // const ms: string = core.getInput('milliseconds');
         const apiKey = core.getInput('openai-api-key');
         core.info(`API Key: ${apiKey}`);
-        core.exportVariable('OPENAI_API_KEY', core.getInput('openai-api-key'));
+        console.log(`API Key: ${apiKey}`);
+        core.exportVariable('OPENAI_API_KEY', apiKey);
         // core.setOutput('result', 'Test output')
         // core.exportVariable('OPENAI_API_KEY', core.getInput('openai-api)
         // Debug logs are only output if the `ACTIONS_STEP_DEBUG` secret is true

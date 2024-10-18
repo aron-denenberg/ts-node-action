@@ -13,7 +13,9 @@ export async function run(): Promise<void> {
 
     core.info(`API Key: ${apiKey}`)
 
-    core.exportVariable('OPENAI_API_KEY', core.getInput('openai-api-key'))
+    console.log(`API Key: ${apiKey}`)
+
+    core.exportVariable('OPENAI_API_KEY', apiKey)
 
     // core.setOutput('result', 'Test output')
 

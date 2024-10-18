@@ -53,7 +53,7 @@ describe('action', () => {
     expect(setOutputMock).toHaveBeenCalledWith('result', expect.any(String))
 
     // Verify that all of the core library functions were called correctly
-    // expect(debugMock).toHaveBeenNthCalledWith(1, 'Waiting 500 milliseconds ...')
+    // expect(debugMock).toHaveBeenNthCalledWith(1, 'W aiting 500 milliseconds ...')
     // expect(debugMock).toHaveBeenNthCalledWith(
     //   2,
     //   expect.stringMatching(timeRegex)
