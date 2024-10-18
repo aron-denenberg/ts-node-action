@@ -64,7 +64,7 @@ jobs:
 
       - name: Test Local Action
         id: test-action
-        uses: aron-denenberg/ts-node-action@v1.1.0
+        uses: aron-denenberg/ts-node-action@v1.0.1
         with:
           openai_api_key: ${{ secrets.OPENAI_API_KEY }}
 
