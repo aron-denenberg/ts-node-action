@@ -64,11 +64,13 @@ jobs:
 
       - name: Test Local Action
         id: test-action
-        uses: aron-denenberg/ts-node-action@v1.0.1
+        uses: aron-denenberg/ts-node-action@v1
         with:
           openai_api_key: ${{ secrets.OPENAI_API_KEY }}
 
       - name: Print Output
         if: ${{ steps.test-action.conclusion == 'success' }}
         id: output
-        run: echo "${{ steps.test-action.conclusion }}  ${{ steps.test-action.outputs.result }}"
+        run:
+          echo "${{ steps.test-action.conclusion }}  ${{
+          steps.test-action.outputs.result }}"

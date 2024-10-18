@@ -23,7 +23,7 @@ let setFailedMock: jest.SpiedFunction<typeof core.setFailed>
 let setOutputMock: jest.SpiedFunction<typeof core.setOutput>
 
 describe('action', () => {
-  jest.setTimeout(3000000);
+  jest.setTimeout(3000000)
   beforeEach(() => {
     jest.clearAllMocks()
 
@@ -50,8 +50,7 @@ describe('action', () => {
     await main.run()
     expect(runMock).toHaveReturned()
 
-    expect(setOutputMock).toHaveBeenCalledWith('result', expect.any(String));
-
+    expect(setOutputMock).toHaveBeenCalledWith('result', expect.any(String))
 
     // Verify that all of the core library functions were called correctly
     // expect(debugMock).toHaveBeenNthCalledWith(1, 'Waiting 500 milliseconds ...')
