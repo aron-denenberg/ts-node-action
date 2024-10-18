@@ -36131,8 +36131,10 @@ const model_parser_1 = __nccwpck_require__(8457);
 async function run() {
     try {
         // const ms: string = core.getInput('milliseconds');
+        const apiKey = core.getInput('openai-api-key');
+        core.info(`API Key: ${apiKey}`);
         core.exportVariable('OPENAI_API_KEY', core.getInput('openai-api-key'));
-        core.setOutput('result', 'Test output');
+        // core.setOutput('result', 'Test output')
         // core.exportVariable('OPENAI_API_KEY', core.getInput('openai-api)
         // Debug logs are only output if the `ACTIONS_STEP_DEBUG` secret is true
         // core.debug(`Waiting ${ms} milliseconds ...`)
