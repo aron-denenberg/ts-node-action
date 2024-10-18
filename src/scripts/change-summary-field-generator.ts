@@ -373,7 +373,11 @@ async function generateFieldFromAIAssistant(
     val => val.type === 'text'
   )[0].text?.value
 
-  const markdown = /(```markdown\n.*\n```)/g.exec(response || '')?.[1]
+  console.log(response)
+
+  const test = /(```markdown([\n]|.)*\n```)/g.exec(response || '')
+
+  const markdown = test ? test[1] : ''
 
   if (!response) {
     throw new Error(

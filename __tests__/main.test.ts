@@ -35,12 +35,12 @@ describe('action', () => {
   })
 
   it('sets the time output', async () => {
-    const summary = `Additions:[\`migrations/20240423141123-seed-org-notification-type-device-unlock-confirmation-completion.js\`](diffhunk://#diff-0a5fa619c3601c8a8dd49b04c02e23c9006628b89b15367cb404f050bc3c9759R1-R58): Added new notification types for device unlock order placed and completed, including their respective external template IDs.### Updates:* [\`migrations/20240502141123-update-notification-type-device-unlock-placed.js\`](diffhunk://#diff-0c1d264e1010662d1a7ea40180c9a59415b922acc17553c9be6f508df8183b9eR1-R42): Updated the name of the 'DeviceUnlockOrderPlacedConfirmation' notification type to 'DeviceUnlockOrderPlaced'.`
+    const summary = `Additions:[\`migrations/20240423141123-seed-org-notification-type-device-unlock-confirmation-completion.js\`](diffhunk://#diff-0a5fa619c3601c8a8dd49b04c02e23c9006628b89b15367cb404f050bc3c9759R1-R58): Added new notification types for device unlock order placed and completed, including their respective external template IDs.### Updates:* [\`migrations/20240502141123-update-notification-type-device-unlock-placed.js\`](diffhunk://#diff-0c1d264e1010662d1a7ea40180c9a59415b922acc17553c9be6f508df8183b9eR1-R42): Updated the name of the "DeviceUnlockOrderPlacedConfirmation" notification type to "DeviceUnlockOrderPlaced".`
     // Set the action's inputs as return values from core.getInput()
     getInputMock.mockImplementation(name => {
       switch (name) {
         case 'field':
-          return 'Code Change Summary'
+          return 'Code Changes'
         case 'summary':
           return summary
         case 'openai_api_key':

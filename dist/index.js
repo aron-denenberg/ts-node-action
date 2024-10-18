@@ -36413,7 +36413,9 @@ async function generateFieldFromAIAssistant(aiClient, aiAssistant, field, summar
         .filter(message => message.run_id === run.id && message.role === 'assistant')
         .pop();
     const response = lastMessageForRun?.content.filter(val => val.type === 'text')[0].text?.value;
-    const markdown = /(```markdown\n.*\n```)/g.exec(response || '')?.[1];
+    console.log(response);
+    const test = /(```markdown([\n]|.)*\n```)/g.exec(response || '');
+    const markdown = test ? test[1] : '';
     if (!response) {
         throw new Error(`Unexpected value returned by AI parser: ${lastMessageForRun?.content.filter(val => val.type === 'text')[0].text?.value}`);
     }
