@@ -23,7 +23,7 @@ export async function run(): Promise<void> {
     // await wait(parseInt(ms, 10))
     // core.debug(new Date().toTimeString())
 
-    const result = await runAI();
+    // const result = await runAI();
 
     // Set outputs for other workflow steps to use
     // core.setOutput('result', 'Test output');
