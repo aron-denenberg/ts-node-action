@@ -60,6 +60,8 @@ jobs:
         run: echo "OpenAI API Key exists?"
 
       - name: Test Local Action
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         id: test-action
         uses: aron-denenberg/ts-node-action@v1
         with:
