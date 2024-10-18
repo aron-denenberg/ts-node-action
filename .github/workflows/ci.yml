@@ -57,7 +57,7 @@ jobs:
 
       - name: Print Environment Variables
         id: env
-        run: echo "OpenAI API Key exists? ${{ secrets.OPENAI_API_KEY }}"
+        run: echo "OpenAI API Key exists?"
 
       - name: Test Local Action
         id: test-action
