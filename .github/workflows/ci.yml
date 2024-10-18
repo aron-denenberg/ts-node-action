@@ -69,4 +69,5 @@ jobs:
         if: ${{ steps.test-action.conclusion == 'success' }}
         id: output
         run:
-          echo "${{ steps.test-action.conclusion }}  ${{ steps.test-action.outputs.result }}"
+          echo "${{ steps.test-action.conclusion }}  ${{
+          steps.test-action.outputs.result }}"
