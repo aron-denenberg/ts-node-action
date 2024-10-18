@@ -1,6 +1,7 @@
 name: Continuous Integration
 
 on:
+  workflow_dispatch:
   pull_request:
     branches:
       - main
@@ -47,18 +48,37 @@ jobs:
   test-action:
     name: GitHub Actions Test
     runs-on: ubuntu-latest
+    environment: default
 
     steps:
       - name: Checkout
         id: checkout
         uses: actions/checkout@v4
 
+      - name: Print Environment Variables
+        id: env
+        run: echo "OpenAI API Key exists?"
+
       - name: Test Local Action
         id: test-action
-        uses: ./
+        uses: aron-denenberg/ts-node-action@v1
         with:
-          milliseconds: 2000
+          openai_api_key: ${{ secrets.OPENAI_API_KEY }}
+          field: 'Code Change Summary'
+          existing_value:
+            '- Added new notification types to handle "device unlock order
+            placed" and "device unlock order completed" events, including
+            necessary template IDs. - Updated the name of the existing
+            notification type from DeviceUnlockOrderPlacedConfirmation to
+            DeviceUnlockOrderPlaced.'
+          summary:
+            'This pull request includes new migration scripts to add and update
+            notification types related to device unlock orders. The most
+            important changes include adding new notification types and updating
+            the name of an existing notification type. Additionally, the
+            store-ui is updated to show the new notifications types and will no
+            longer show the replacement types.'
 
       - name: Print Output
         id: output
-        run: echo "${{ steps.test-action.outputs.time }}"
+        run: echo "${{ steps.test-action.outputs.result }}"
