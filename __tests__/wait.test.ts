@@ -20,6 +20,6 @@ describe('wait.ts', () => {
 
     const delta = Math.abs(end.getTime() - start.getTime())
 
-    expect(delta).toBeGreaterThan(450);
+    expect(delta).toBeGreaterThan(450)
   })
 })

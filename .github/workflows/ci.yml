@@ -65,10 +65,20 @@ jobs:
         with:
           openai_api_key: ${{ secrets.OPENAI_API_KEY }}
           field: 'Code Change Summary'
-          existing_value: '- Added new notification types to handle "device unlock order placed" and "device unlock order completed" events, including necessary template IDs. - Updated the name of the existing notification type from DeviceUnlockOrderPlacedConfirmation to DeviceUnlockOrderPlaced.'
-          summary: 'This pull request includes new migration scripts to add and update notification types related to device unlock orders. The most important changes include adding new notification types and updating the name of an existing notification type. Additionally, the store-ui is updated to show the new notifications types and will no longer show the replacement types.'
+          existing_value:
+            '- Added new notification types to handle "device unlock order
+            placed" and "device unlock order completed" events, including
+            necessary template IDs. - Updated the name of the existing
+            notification type from DeviceUnlockOrderPlacedConfirmation to
+            DeviceUnlockOrderPlaced.'
+          summary:
+            'This pull request includes new migration scripts to add and update
+            notification types related to device unlock orders. The most
+            important changes include adding new notification types and updating
+            the name of an existing notification type. Additionally, the
+            store-ui is updated to show the new notifications types and will no
+            longer show the replacement types.'
 
       - name: Print Output
         id: output
-        run:
-          echo "${{ steps.test-action.outputs.result }}"
+        run: echo "${{ steps.test-action.outputs.result }}"
