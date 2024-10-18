@@ -7,16 +7,16 @@ import { runAI } from './scripts/model-parser'
  */
 export async function run(): Promise<void> {
   try {
-    const ms: string = core.getInput('milliseconds');
+    // const ms: string = core.getInput('milliseconds');
 
-    core.exportVariable('OPENAI_API_KEY', core.getInput('openai-api-key'));
+    // core.exportVariable('OPENAI_API_KEY', core.getInput('openai-api-key'));
 
     core.setOutput('result', 'Test output');
 
     // core.exportVariable('OPENAI_API_KEY', core.getInput('openai-api)
 
     // Debug logs are only output if the `ACTIONS_STEP_DEBUG` secret is true
-    core.debug(`Waiting ${ms} milliseconds ...`)
+    // core.debug(`Waiting ${ms} milliseconds ...`)
 
     // // Log the current timestamp, wait, then log the new timestamp
     // core.debug(new Date().toTimeString())
