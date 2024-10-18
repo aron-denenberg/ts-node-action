@@ -66,9 +66,9 @@ jobs:
         id: test-action
         uses: aron-denenberg/ts-node-action@v1
         with:
-          milliseconds: 2000
           openai_api_key: ${{ secrets.OPENAI_API_KEY }}
 
       - name: Print Output
+        if: ${{ steps.test-action.conclusion == 'success' }}
         id: output
         run: echo "${{ steps.test-action.conclusion }}  ${{ steps.test-action.outputs.result }}"
