@@ -1,5 +1,4 @@
 import * as core from '@actions/core'
-import { wait } from './wait'
 import { runAI } from './scripts/model-parser'
 
 /**
@@ -11,6 +10,8 @@ export async function run(): Promise<void> {
     const ms: string = core.getInput('milliseconds');
 
     core.exportVariable('OPENAI_API_KEY', core.getInput('openai-api-key'));
+
+    core.setOutput('result', 'Test output');
 
     // core.exportVariable('OPENAI_API_KEY', core.getInput('openai-api)
 
@@ -25,7 +26,7 @@ export async function run(): Promise<void> {
     const result = await runAI();
 
     // Set outputs for other workflow steps to use
-    core.setOutput('result', 'Test output');
+    // core.setOutput('result', 'Test output');
   } catch (error) {
     // Fail the workflow run if an error occurs
     if (error instanceof Error) core.setFailed(error.message)
