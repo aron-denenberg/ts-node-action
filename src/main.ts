@@ -25,7 +25,7 @@ export async function run(): Promise<void> {
     const result = await runAI();
 
     // Set outputs for other workflow steps to use
-    core.setOutput('result', result)
+    core.setOutput('result', 'Test output');
   } catch (error) {
     // Fail the workflow run if an error occurs
     if (error instanceof Error) core.setFailed(error.message)
