@@ -3,6 +3,10 @@ name: Continuous Integration
 on:
   workflow_dispatch:
     inputs:
+      field:
+        description: 'Change Summary field to parse'
+        required: true
+        default: 'Code Change Summary'
       existing_value:
         description: 'Existing value to update'
         required: false
@@ -71,7 +75,7 @@ jobs:
         uses: aron-denenberg/ts-node-action@v1
         with:
           openai_api_key: ${{ secrets.OPENAI_API_KEY }}
-          field: 'Code Change Summary'
+          field: ${{ github.event.inputs.field }}
           existing_value: ${{ github.event.inputs.existing_value }}
           summary: ${{ github.event.inputs.summary }}
 
