@@ -12,7 +12,7 @@ export async function run(): Promise<void> {
     const apiKey = core.getInput('openai_api_key')
     const field = core.getInput('field')
     const summary = core.getInput('summary')
-    const currentValue = core.getInput('current_value')
+    const existingValue = core.getInput('existing_value')
 
     core.info(`API Key: ${apiKey}`)
 
@@ -32,7 +32,7 @@ export async function run(): Promise<void> {
     // await wait(parseInt(ms, 10))
     // core.debug(new Date().toTimeString()) ..
 
-    const result = await runAI(field, summary, currentValue)
+    const result = await runAI(field, summary, existingValue)
 
     // Set outputs for other workflow steps to use
     core.setOutput('result', result)

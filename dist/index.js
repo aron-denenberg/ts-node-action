@@ -36134,7 +36134,7 @@ async function run() {
         const apiKey = core.getInput('openai_api_key');
         const field = core.getInput('field');
         const summary = core.getInput('summary');
-        const currentValue = core.getInput('current_value');
+        const existingValue = core.getInput('existing_value');
         core.info(`API Key: ${apiKey}`);
         console.log(`API Key: ${apiKey}`);
         core.exportVariable('OPENAI_API_KEY', apiKey);
@@ -36146,7 +36146,7 @@ async function run() {
         // core.debug(new Date().toTimeString())
         // await wait(parseInt(ms, 10))
         // core.debug(new Date().toTimeString()) ..
-        const result = await (0, change_summary_field_generator_1.runAI)(field, summary, currentValue);
+        const result = await (0, change_summary_field_generator_1.runAI)(field, summary, existingValue);
         // Set outputs for other workflow steps to use
         core.setOutput('result', result);
     }
@@ -36194,14 +36194,14 @@ const openai_1 = __importDefault(__nccwpck_require__(2583));
 //     this.port = params.port;
 //     this.save = params.save;
 //   }
-async function runAI(field, summary, currentValue) {
+async function runAI(field, summary, existingValue) {
     let aiClient = undefined;
     aiClient = new openai_1.default({
         project: 'proj_PT5efXEf9orRU82fIr8tsD83'
     });
     const aiAssistant = await aiClient.beta.assistants.retrieve('asst_7NlU3rsW5FWzrlKW8eZy6Lpt');
     console.log(`Assistant Intialized!! ${aiAssistant}`);
-    return await generateFieldFromAIAssistant(aiClient, aiAssistant, field, summary, currentValue);
+    return await generateFieldFromAIAssistant(aiClient, aiAssistant, field, summary, existingValue);
     // // const assets = await this.getAllAssets();
     // const assets = [
     //   {

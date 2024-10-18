@@ -93,7 +93,7 @@ type AssetRow = {
 export async function runAI(
   field: string,
   summary: string,
-  currentValue?: string
+  existingValue?: string
 ): Promise<string> {
   let aiClient = undefined
 
@@ -112,7 +112,7 @@ export async function runAI(
     aiAssistant,
     field,
     summary,
-    currentValue
+    existingValue
   )
 
   // // const assets = await this.getAllAssets();
