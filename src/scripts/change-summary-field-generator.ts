@@ -317,7 +317,7 @@ async function generateFieldFromAIAssistant(
       {
         // Sometimes the parser includes extra fluff text in the response, so we need to filter it out
         role: 'user' as 'user',
-        content: `Parse the following text into the "${field}" field of the Change Summary document: "${summary}"`
+        content: `Translate the following text into markdown for the "${field}" field of the Change Summary document: "${summary}"`
       },
       ...(currentValue
         ? [
