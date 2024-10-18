@@ -35,7 +35,30 @@ describe('action', () => {
   })
 
   it('sets the time output', async () => {
-    const summary = `Additions:[\`migrations/20240423141123-seed-org-notification-type-device-unlock-confirmation-completion.js\`](diffhunk://#diff-0a5fa619c3601c8a8dd49b04c02e23c9006628b89b15367cb404f050bc3c9759R1-R58): Added new notification types for device unlock order placed and completed, including their respective external template IDs.### Updates:* [\`migrations/20240502141123-update-notification-type-device-unlock-placed.js\`](diffhunk://#diff-0c1d264e1010662d1a7ea40180c9a59415b922acc17553c9be6f508df8183b9eR1-R42): Updated the name of the "DeviceUnlockOrderPlacedConfirmation" notification type to "DeviceUnlockOrderPlaced".`
+    const summary = `This pull request includes a small change to the \`README.md\` file. The change adds a new section titled "README Fluff" with placeholder content intended for future removal. Changes to \`README.md\`:
+* Added a "README Fluff" section with placeholder content.
+# Descriptio
+<!-- Please change \`XX\` to the number of the shortcut ticket -->
+
+[dev-XX](https://allwhere.atlassian.net/browse/DEV-XX)
+
+<!-- Please include a summary of the change and which issue is fixed. Please also include relevant motivation and context. List any dependencies that are required for this change. -->
+
+## Type of change
+
+- [ ] Bug fix (non-breaking change which fixes an issue)
+- [ ] New feature (non-breaking change which adds functionality)
+- [ ] Breaking change (fix or feature that would cause existing functionality to not work as expected)
+- [ ] Refactor (non-breaking change which does not adds functionality)
+- [ ] This change requires a documentation update
+
+## Checklist before requesting a review
+
+- [ ] I have ran unit tests locally
+- [ ] I have ran linter locally
+- [ ] I have started the server locally
+- [ ] If it is a core feature, I have added thorough tests.`
+
     // Set the action's inputs as return values from core.getInput()
     getInputMock.mockImplementation(name => {
       switch (name) {

@@ -322,6 +322,11 @@ async function generateFieldFromAIAssistant(
       // Sometimes the parser includes extra fluff text in the response, so we need to filter it out
       role: 'user' as 'user',
       content: `Translate the following text into markdown for the "${field}" field of the Change Summary document: "${summary}"`
+    },
+    {
+      role: 'user' as 'user',
+      content:
+        'Disregard any part of the summary containing a checklist for the type of change or whether a review is requested. The output should just be a summary so remove any instructions or prompts that don not pertain to the summary of changes.'
     }
   ]
 
@@ -375,7 +380,10 @@ async function generateFieldFromAIAssistant(
 
   console.log(response)
 
-  const test = /(```markdown([\n]|.)*\n```)/g.exec(response || '')
+  const another = `Sure! Let me help you
+  ${response}`
+
+  const test = /```markdown\n(([\n]|.)*)\n```/g.exec(another || '')
 
   const markdown = test ? test[1] : ''
 

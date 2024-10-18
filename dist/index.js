@@ -36378,6 +36378,10 @@ async function generateFieldFromAIAssistant(aiClient, aiAssistant, field, summar
             // Sometimes the parser includes extra fluff text in the response, so we need to filter it out
             role: 'user',
             content: `Translate the following text into markdown for the "${field}" field of the Change Summary document: "${summary}"`
+        },
+        {
+            role: 'user',
+            content: 'Disregard any part of the summary containing a checklist for the type of change or whether a review is requested. The output should just be a summary so remove any instructions or prompts that don not pertain to the summary of changes.'
         }
     ];
     if (currentValue) {
@@ -36414,7 +36418,9 @@ async function generateFieldFromAIAssistant(aiClient, aiAssistant, field, summar
         .pop();
     const response = lastMessageForRun?.content.filter(val => val.type === 'text')[0].text?.value;
     console.log(response);
-    const test = /(```markdown([\n]|.)*\n```)/g.exec(response || '');
+    const another = `Sure! Let me help you
+  ${response}`;
+    const test = /```markdown\n(([\n]|.)*)\n```/g.exec(another || '');
     const markdown = test ? test[1] : '';
     if (!response) {
         throw new Error(`Unexpected value returned by AI parser: ${lastMessageForRun?.content.filter(val => val.type === 'text')[0].text?.value}`);
