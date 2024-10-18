@@ -1,20 +1,29 @@
-name: 'The name of your action here'
-description: 'Provide a description here'
-author: 'Your name or organization here'
+name: 'Change Summary Parser AI Assistant'
+description:
+  'This assistant helps you parse Change Summary fields in Jira and other tools.'
+author: 'Aron Denenberg'
 
 # Add your action's branding here. This will appear on the GitHub Marketplace.
 branding:
   icon: 'heart'
   color: 'red'
 
-# env:
-#   OPENAI_API_KEY: ${{ inputs.openai_api_key }}
-
 # Define your inputs here.
 inputs:
   openai_api_key:
-    description: 'Your input description here'
+    description: 'Api key for OpenAI'
     required: true
+  field:
+    description: 'Change Summary field to parse'
+    required: true
+    default: 'Code Change Summary'
+  summary:
+    description: 'PR Change Summary to parse'
+    required: true
+  existing_value:
+    description: 'Existing value to update'
+    required: false
+    default: ''
 
 # Define your outputs here.
 outputs:

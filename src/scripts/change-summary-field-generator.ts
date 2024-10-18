@@ -90,27 +90,30 @@ type AssetRow = {
 //     this.save = params.save;
 //   }
 
-export async function runAI() {
+export async function runAI(
+  field: string,
+  summary: string,
+  currentValue?: string
+): Promise<string> {
   let aiClient = undefined
-  try {
-    aiClient = new OpenAI({
-      project: 'proj_lLBZGSKFIQSflXitDEjM7Aom'
-    })
-  } catch (error) {
-    console.error(error)
-  }
-  if (!aiClient) return
+
+  aiClient = new OpenAI({
+    project: 'proj_PT5efXEf9orRU82fIr8tsD83'
+  })
+
   const aiAssistant = await aiClient.beta.assistants.retrieve(
-    'asst_209I8XHekucF5AWArrloee5W'
+    'asst_7NlU3rsW5FWzrlKW8eZy6Lpt'
   )
 
   console.log(`Assistant Intialized!! ${aiAssistant}`)
 
-  const thread = await createAssetAssistantThread(aiClient)
-
-  console.log(`Thread Intialized!! ${thread}`)
-
-  return JSON.stringify(await aiClient.beta.threads.messages.list(thread.id))
+  return await generateFieldFromAIAssistant(
+    aiClient,
+    aiAssistant,
+    field,
+    summary,
+    currentValue
+  )
 
   // // const assets = await this.getAllAssets();
 
@@ -302,54 +305,63 @@ export async function runAI() {
 //   return result.rows;
 // }
 
-async function createAssetAssistantThread(
-  aiClient: OpenAI
-): Promise<OpenAI.Beta.Threads.Thread> {
-  return await aiClient.beta.threads.create({
+async function generateFieldFromAIAssistant(
+  aiClient: OpenAI,
+  aiAssistant: OpenAI.Beta.Assistants.Assistant,
+  field: string,
+  summary: string,
+  currentValue?: string
+): Promise<string> {
+  const thread = await aiClient.beta.threads.create({
     messages: [
       {
         // Sometimes the parser includes extra fluff text in the response, so we need to filter it out
-        role: 'user',
-        content:
-          'Do not wrap JSON code in JSON markers. When mapping to a JSON string, only return the object itself.'
+        role: 'user' as 'user',
+        content: `Parse the following text into the "${field}" field of the Change Summary document: ${summary}`
       },
-      {
-        // Sometimes the parser does not follow the standard, so we need to remind it
-        role: 'user',
-        content:
-          'The allwhere asset data standard is described in the file named ""H5-Proposal_ Asset Data Standard-260624-155652". DO NOT ASSUME VALUES FOR FIELDS THAT ARE NOT PRESENT.'
-      },
-      // {
-      //   // The main command to parse the model field value
-      //   role: 'user',
-      //   content: `Map the following line of text into a JSON string with the color, display size, keyboard, make, model, memory, model number, operating system, processor, processor frequency, storage, and storage type fields defined in the allwhere asset data standard: ${model}`,
-      // },
-      {
-        // Additional context to help the parser when only the model number field is present
-        role: 'user',
-        content:
-          "When mapping to the fields of the asset data standard, it's possible that only the model number field is present"
-      },
-      {
-        // Context to help identify device cases vs devices
-        role: 'user',
-        content:
-          'When mapping to the fields of the asset data standard, if the provided string includes the word "case", it refers to a device case and not a device itself'
-      },
-      {
-        // Additional context to help locate the model number field for Apple assets
-        role: 'user',
-        content:
-          'When mapping to the fields of the asset data standard, the model number is often found before or after the display size of the input string'
-      },
-      {
-        // Additional formatting for Apple processors
-        role: 'user',
-        content:
-          'When mapping to the fields of the asset data standard, do not include "Apple" for M series processors'
-      }
+      ...(currentValue
+        ? [
+            {
+              role: 'user' as 'user',
+              content: `The current value of the "${field}" field is: ${currentValue}. Please update this value.`
+            }
+          ]
+        : [])
     ]
   })
+
+  const run = await aiClient.beta.threads.runs.create(thread.id, {
+    assistant_id: aiAssistant.id
+  })
+
+  let runStatus = await aiClient.beta.threads.runs.retrieve(thread.id, run.id)
+
+  while (runStatus.status !== 'completed') {
+    await new Promise(resolve => setTimeout(resolve, 2000))
+    runStatus = await aiClient.beta.threads.runs.retrieve(thread.id, run.id)
+  }
+
+  const messages = await aiClient.beta.threads.messages.list(thread.id)
+
+  const lastMessageForRun = messages.data
+    .filter(
+      message => message.run_id === run.id && message.role === 'assistant'
+    )
+    .pop()
+
+  const response = lastMessageForRun?.content.filter(
+    val => val.type === 'text'
+  )[0].text?.value
+
+  if (!response) {
+    throw new Error(
+      `Unexpected value returned by AI parser: ${lastMessageForRun?.content.filter(val => val.type === 'text')[0].text?.value}`
+    )
+  }
+
+  console.log(response)
+
+  return response
 }
 
 // async getModelMessageIdFromThread(thread: OpenAI.Beta.Threads.Thread): Promise<string | undefined> {

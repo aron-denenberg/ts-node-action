@@ -1,5 +1,5 @@
 import * as core from '@actions/core'
-import { runAI } from './scripts/model-parser'
+import { runAI } from './scripts/change-summary-field-generator'
 
 /**
  * The main function for the action.
@@ -10,6 +10,9 @@ export async function run(): Promise<void> {
     // const ms: string = core.getInput('milliseconds');
 
     const apiKey = core.getInput('openai_api_key')
+    const field = core.getInput('field')
+    const summary = core.getInput('summary')
+    const currentValue = core.getInput('current_value')
 
     core.info(`API Key: ${apiKey}`)
 
@@ -29,7 +32,7 @@ export async function run(): Promise<void> {
     // await wait(parseInt(ms, 10))
     // core.debug(new Date().toTimeString()) ..
 
-    const result = await runAI()
+    const result = await runAI(field, summary, currentValue)
 
     // Set outputs for other workflow steps to use
     core.setOutput('result', result)
