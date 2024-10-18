@@ -65,7 +65,7 @@ jobs:
         id: test-action
         uses: aron-denenberg/ts-node-action@v1
         with:
-          openai_api_key: "not a  key"
+          openai_api_key: 'not a  key'
 
       - name: Print Output
         id: output
