@@ -18,12 +18,9 @@ inputs:
     required: true
     default: ''
 
-env:
-  OPENAI_API_KEY: ${{ inputs.openai_api_key }}
-
 # Define your outputs here.
 outputs:
-  time:
+  result:
     description: 'Your output description here'
 
 runs:

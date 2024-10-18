@@ -7,6 +7,7 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -47,18 +48,27 @@ jobs:
   test-action:
     name: GitHub Actions Test
     runs-on: ubuntu-latest
+    environment: default
+
+    env:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
 
     steps:
       - name: Checkout
         id: checkout
         uses: actions/checkout@v4
 
+      - name: Print Environment Variables
+        id: env
+        run: echo "OpenAI API Key $OPENAI_API_KEY"
+
       - name: Test Local Action
         id: test-action
-        uses: ./
+        uses: aron-denenberg/ts-node-action@v1
         with:
           milliseconds: 2000
+          openai_api_key: ${{ secrets.OPENAI_API_KEY }}
 
       - name: Print Output
         id: output
-        run: echo "${{ steps.test-action.outputs.time }}"
+        run: echo "${{ steps.test-action.outputs.result }}"

@@ -78,7 +78,7 @@ describe('action', () => {
         case 'milliseconds':
           return 'this is not a number'
         case 'openai-api-key':
-          return '
+          return ''
         default:
           return ''
       }
