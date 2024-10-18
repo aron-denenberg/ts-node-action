@@ -9,7 +9,7 @@ export async function run(): Promise<void> {
   try {
     // const ms: string = core.getInput('milliseconds');
 
-    // core.exportVariable('OPENAI_API_KEY', core.getInput('openai-api-key'));
+    core.exportVariable('OPENAI_API_KEY', core.getInput('openai-api-key'))
 
     core.setOutput('result', 'Test output')
 
@@ -23,10 +23,10 @@ export async function run(): Promise<void> {
     // await wait(parseInt(ms, 10))
     // core.debug(new Date().toTimeString()) ..
 
-    // const result = await runAI();
+    const result = await runAI()
 
     // Set outputs for other workflow steps to use
-    // core.setOutput('result', 'Test output');
+    core.setOutput('result', result)
   } catch (error) {
     // Fail the workflow run if an error occurs
     if (error instanceof Error) core.setFailed(error.message)
