@@ -36131,7 +36131,7 @@ const model_parser_1 = __nccwpck_require__(8457);
 async function run() {
     try {
         // const ms: string = core.getInput('milliseconds');
-        const apiKey = core.getInput('openai-api-key');
+        const apiKey = core.getInput('openai_api_key');
         core.info(`API Key: ${apiKey}`);
         console.log(`API Key: ${apiKey}`);
         core.exportVariable('OPENAI_API_KEY', apiKey);

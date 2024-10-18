@@ -9,7 +9,7 @@ export async function run(): Promise<void> {
   try {
     // const ms: string = core.getInput('milliseconds');
 
-    const apiKey = core.getInput('openai-api-key')
+    const apiKey = core.getInput('openai_api_key')
 
     core.info(`API Key: ${apiKey}`)
 
