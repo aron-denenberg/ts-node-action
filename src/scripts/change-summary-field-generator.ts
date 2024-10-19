@@ -316,7 +316,12 @@ async function generateFieldFromAIAssistant(
     {
       role: 'user' as 'user',
       content:
-        'You must format all of your responses exclusively in markdown. Always use markdown elements such as headers, code blocks, lists, and links when appropriate. Do not output anything in plain text that is not wrapped in a markdown element.'
+        'You must format all of your responses exclusively in Atlassian Document Format. Always use ADF elements (Block Nodes, Inline Nodes, and Marks) to configure headers, code blocks, lists, and links when appropriate. Do not output anything in plain text that is not wrapped in a markdown element.'
+    },
+    {
+      role: 'user' as 'user',
+      content:
+        'The summary may be in any format, including but not exclusive to: markup, markdown, Atalassian Document Format, plain text, and rich text.'
     },
     {
       // Sometimes the parser includes extra fluff text in the response, so we need to filter it out
