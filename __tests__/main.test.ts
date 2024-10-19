@@ -37,7 +37,7 @@ describe('action', () => {
   it('sets the time output', async () => {
     const summary = `This pull request includes a small change to the \`README.md\` file. The change adds a new section titled "README Fluff" with placeholder content intended for future removal. Changes to \`README.md\`:
 * Added a "README Fluff" section with placeholder content.
-# Descriptio
+# Description
 <!-- Please change \`XX\` to the number of the shortcut ticket -->
 
 [dev-XX](https://allwhere.atlassian.net/browse/DEV-XX)

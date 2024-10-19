@@ -390,5 +390,7 @@ async function generateFieldFromAIAssistant(
     )
   }
 
+  console.log(adf);
+
   return adf || response;
 }
