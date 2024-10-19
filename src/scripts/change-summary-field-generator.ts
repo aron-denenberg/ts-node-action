@@ -382,7 +382,7 @@ async function generateFieldFromAIAssistant(
 
   const test = /```.*\n(([\n]|.)*)\n```/g.exec(response || '')
 
-  const adf = test ? test[1] : response;
+  const adf = test ? test[1] : response
 
   if (!response) {
     throw new Error(
@@ -390,7 +390,7 @@ async function generateFieldFromAIAssistant(
     )
   }
 
-  console.log(adf);
+  console.log(adf)
 
-  return adf || response;
+  return adf || response
 }

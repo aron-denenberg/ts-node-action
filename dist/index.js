@@ -36377,7 +36377,7 @@ async function generateFieldFromAIAssistant(aiClient, aiAssistant, field, summar
         {
             // Sometimes the parser includes extra fluff text in the response, so we need to filter it out
             role: 'user',
-            content: `Translate the following text into markdown for the "${field}" field of the Change Summary document: "${summary}"`
+            content: `Translate the following text into Atlassian Document Format for the "${field}" field of the Change Summary document: "${summary}"`
         },
         {
             role: 'user',
@@ -36418,72 +36418,14 @@ async function generateFieldFromAIAssistant(aiClient, aiAssistant, field, summar
         .pop();
     const response = lastMessageForRun?.content.filter(val => val.type === 'text')[0].text?.value;
     console.log(response);
-    const another = `Sure! Let me help you
-  ${response}`;
-    const test = /```markdown\n(([\n]|.)*)\n```/g.exec(another || '');
-    const markdown = test ? test[1] : '';
+    const test = /```.*\n(([\n]|.)*)\n```/g.exec(response || '');
+    const adf = test ? test[1] : response;
     if (!response) {
         throw new Error(`Unexpected value returned by AI parser: ${lastMessageForRun?.content.filter(val => val.type === 'text')[0].text?.value}`);
     }
-    console.log(markdown);
-    return markdown || '';
+    console.log(adf);
+    return adf || response;
 }
-// async getModelMessageIdFromThread(thread: OpenAI.Beta.Threads.Thread): Promise<string | undefined> {
-//   const messages = await this.aiClient.beta.threads.messages.list(thread.id);
-//   const modelMessage = messages.data.find((message) => {
-//     return message.content[0]['text']?.value?.includes('Map the following line of text into a JSON');
-//   });
-//   return modelMessage?.id;
-// }
-// async parseModelFieldAttributes(thread: OpenAI.Beta.Threads.Thread, model: string): Promise<AssetAttributes> {
-//   // const modelMessageId = await this.getModelMessageIdFromThread(thread);
-//   // if (!modelMessageId) {
-//   //   throw new Error('Model message not found in thread');
-//   // }
-//   await this.aiClient.beta.threads.messages.create(thread.id,
-//       {
-//         role: 'user',
-//         content: `Map the following line of text into a JSON string with the color, display size, keyboard, make, model, memory, model number, operating system, processor, processor frequency, storage, and storage type fields defined in the allwhere asset data standard: ${model}`,
-//       },
-//   );
-//   const run = await this.aiClient.beta.threads.runs.create(thread.id, {
-//     assistant_id: this.aiAssistant.id,
-//   });
-//   let runStatus = await this.aiClient.beta.threads.runs.retrieve(
-//     thread.id,
-//     run.id
-//   );
-//   while (runStatus.status !== "completed") {
-//     await new Promise((resolve) => setTimeout(resolve, 2000));
-//     runStatus = await this.aiClient.beta.threads.runs.retrieve(thread.id, run.id);
-//   }
-//   const messages = await this.aiClient.beta.threads.messages.list(thread.id);
-//   const lastMessageForRun: OpenAI.Beta.Threads.Messages.Message | undefined = messages.data
-//       .filter(
-//         (message) => message.run_id === run.id && message.role === "assistant"
-//       )
-//       .pop();
-//   const response = lastMessageForRun?.content[0].text?.value?.match(/\{[^}]*\}/g)?.[0];
-//   if (!response) {
-//     throw new Error(`Unexpected value returned by AI parser: ${lastMessageForRun?.content[0]['text']?.value}`);
-//   }
-//   console.log(response);
-//   const attributes = JSON.parse(response);
-//   return {
-//     ...(attributes.color && { color: attributes.color }),
-//     ...(attributes.displaySize && { displaySize: attributes.displaySize }),
-//     ...(attributes.keyboard && { keyboard: attributes.keyboard }),
-//     ...(attributes.make && { make: attributes.make }),
-//     ...((attributes.model && this.cleanup) && { model: attributes.model }),
-//     ...(attributes.memory && { memory: attributes.memory }),
-//     ...(attributes.modelNumber && { modelNumber: attributes.modelNumber }),
-//     ...(attributes.operatingSystem && { operatingSystem: attributes.operatingSystem }),
-//     ...(attributes.processor && { processor: attributes.processor }),
-//     ...(attributes.processorFrequency && { processorFrequency: attributes.processorFrequency }),
-//     ...(attributes.storage && { storage: attributes.storage }),
-//     ...(attributes.storageType && { storageType: attributes.storageType }),
-//   };
-// }
 
 
 /***/ }),
