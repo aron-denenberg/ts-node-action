@@ -36384,14 +36384,19 @@ async function generateFieldFromAIAssistant(aiClient, aiAssistant, field, summar
             content: `Translate the following text into Atlassian Document Format for the "${field}" field of the Change Summary document: "${summary}"`
         },
         {
+            // Sometimes the parser includes extra fluff text in the response, so we need to filter it out
             role: 'user',
-            content: 'Disregard any part of the summary containing a checklist for the type of change or whether a review is requested. The output should just be a summary so remove any instructions or prompts that don not pertain to the summary of changes.'
+            content: 'Give a descriptive header to this summary. The header should be a concise description of the summary.'
+        },
+        {
+            role: 'user',
+            content: 'Disregard any part of the summary containing instructions, a checklist for the type of change, or whether a review is requested. The output should just be a summary so remove any instructions or prompts that don not pertain to the summary of changes.'
         }
     ];
     if (currentValue) {
         userMessages.push({
             role: 'user',
-            content: `The current value of the "${field}" field is: "${currentValue}". Please add on to this value with the new information. This value itself should not be removed or modified.`
+            content: `The current value of the "${field}" field is: "${currentValue}". Please append a new section to the current value with the new information. Do not remove or modify the current value.`
         });
     }
     let fieldInstruction;

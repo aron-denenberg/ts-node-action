@@ -66,6 +66,152 @@ describe('action', () => {
           return 'Code Changes'
         case 'summary':
           return summary
+        case 'existing_value':
+          return `{
+      "version": 1,
+      "type": "doc",
+      "content": [
+        {
+          "type": "heading",
+          "attrs": {
+            "level": 1
+          },
+          "content": [
+            {
+              "type": "text",
+              "text": "Update to Workflow Environment Variable Parsing"
+            }
+          ]
+        },
+        {
+          "type": "paragraph",
+          "content": [
+            {
+              "type": "text",
+              "text": "This pull request includes a change to the "
+            },
+            {
+              "type": "text",
+              "text": ".github/workflows/change-summary.yml",
+              "marks": [
+                {
+                  "type": "code"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "text": " file to ensure that environment variables are correctly parsed as JSON objects."
+            }
+          ]
+        },
+        {
+          "type": "bulletList",
+          "content": [
+            {
+              "type": "listItem",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "jobs: in "
+                    },
+                    {
+                      "type": "text",
+                      "text": ".github/workflows/change-summary.yml",
+                      "marks": [
+                        {
+                          "type": "code"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "text": ": Modified the assignment of "
+                    },
+                    {
+                      "type": "text",
+                      "text": "customfield_10081",
+                      "marks": [
+                        {
+                          "type": "code"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "text": " and "
+                    },
+                    {
+                      "type": "text",
+                      "text": "customfield_10096",
+                      "marks": [
+                        {
+                          "type": "code"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "text": " to parse "
+                    },
+                    {
+                      "type": "text",
+                      "text": "process.env.CODE_CHANGE_SUMMARY",
+                      "marks": [
+                        {
+                          "type": "code"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "text": " and "
+                    },
+                    {
+                      "type": "text",
+                      "text": "process.env.CODE_CHANGES",
+                      "marks": [
+                        {
+                          "type": "code"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "text": " as JSON objects."
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "paragraph",
+          "content": [
+            {
+              "type": "text",
+              "text": "Related issue: "
+            },
+            {
+              "type": "text",
+              "text": "dev-XX",
+              "marks": [
+                {
+                  "type": "link",
+                  "attrs": {
+                    "href": "https://allwhere.atlassian.net/browse/DEV-XX"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }`
         case 'openai_api_key':
           return ''
         default:
